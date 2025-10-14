@@ -1,8 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart'; // image_pickerをインポート
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  Future<void> _pickImage(ImageSource source) async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? pickedFile = await picker.pickImage(source: source);
+
+    if (pickedFile != null) {
+      // 画像が選択されたら、写真の確認画面へ遷移し、画像ファイルを渡す
+      context.go('/scan', extra: pickedFile);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +62,7 @@ class HomeScreen extends StatelessWidget {
               ),
               const Spacer(),
               GestureDetector(
-                onTap: () => context.go('/scan'),
+                onTap: () => _pickImage(ImageSource.camera),
                 child: Container(
                   width: 160,
                   height: 160,
@@ -70,9 +86,7 @@ class HomeScreen extends StatelessWidget {
               ),
               const Spacer(),
               OutlinedButton.icon(
-                onPressed: () {
-                  // TODO: Photo Album 機能の実装
-                },
+                onPressed: () => _pickImage(ImageSource.gallery),
                 icon: const Icon(Icons.photo_album),
                 label: const Text('Photo Album'),
                 style: OutlinedButton.styleFrom(

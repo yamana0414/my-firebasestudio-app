@@ -43,3 +43,15 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Firebase - 機密情報
+/android/app/google-services.json
+/lib/firebase_options.dart
+
+# IDE/Editor files
+.vscode/
+.idx/
+
+# Flutter/Dart build files
+/build/
+.dart_tool/

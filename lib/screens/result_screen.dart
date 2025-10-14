@@ -15,7 +15,7 @@ class ResultScreen extends StatelessWidget {
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () => context.pop(),
+          onPressed: () => context.go('/'), // ホーム画面に戻るように修正
         ),
       ),
       body: Column(
