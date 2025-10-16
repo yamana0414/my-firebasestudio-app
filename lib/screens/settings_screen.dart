@@ -39,34 +39,6 @@ class SettingsScreen extends StatelessWidget {
     }
   }
 
-  Future<void> _signOut(BuildContext context) async {
-    final messenger = ScaffoldMessenger.of(context);
-    try {
-      await FirebaseAuth.instance.signOut();
-      if (!context.mounted) {
-        return;
-      }
-      messenger.showSnackBar(
-        const SnackBar(content: Text('ログアウトしました')),
-      );
-      Navigator.of(context).pop();
-    } on FirebaseAuthException catch (e) {
-      if (!context.mounted) {
-        return;
-      }
-      messenger.showSnackBar(
-        SnackBar(content: Text('ログアウトに失敗しました (${e.code})')),
-      );
-    } catch (_) {
-      if (!context.mounted) {
-        return;
-      }
-      messenger.showSnackBar(
-        const SnackBar(content: Text('ログアウトに失敗しました')),
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final items = <Widget>[
@@ -87,11 +59,6 @@ class SettingsScreen extends StatelessWidget {
         title: const Text('プライバシーポリシー'),
         onTap: _openPrivacy,
       ),
-      ListTile(
-        leading: const Icon(Icons.logout, color: Colors.redAccent),
-        title: const Text('ログアウト'),
-        onTap: () => _signOut(context),
-      ),
     ];
 
     return Scaffold(
@@ -105,6 +72,27 @@ class SettingsScreen extends StatelessWidget {
                 itemBuilder: (c, i) => items[i],
                 separatorBuilder: (_, __) => const Divider(height: 1),
                 itemCount: items.length,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+              child: SizedBox(
+                width: double.infinity,
+                child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: Colors.red.shade700,
+                    side: BorderSide(color: Colors.red.shade300),
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                  ),
+                  onPressed: () async {
+                    await FirebaseAuth.instance.signOut();
+                    if (!context.mounted) return;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('ログアウトしました')),
+                    );
+                  },
+                  child: const Text('ログアウト'),
+                ),
               ),
             ),
           ],
