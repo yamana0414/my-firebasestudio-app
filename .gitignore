@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Miscellaneous
 *.class
 *.log
@@ -43,15 +44,62 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
 
-# Firebase - 機密情報
-/android/app/google-services.json
-/lib/firebase_options.dart
-
-# IDE/Editor files
+# IntelliJ / IDE related
+*.iml
+*.ipr
+*.iws
+.idea/
 .vscode/
 .idx/
 
-# Flutter/Dart build files
-/build/
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
 .dart_tool/
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+/build/
+/coverage/
+
+# Editor/IDE configs you may not want in repo
+# (uncomment .vscode/ if you DO want to track it)
+#.vscode/
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Android Studio will place build artifacts here
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+# Local-only and generated files
+pubspec.lock
+android/.gradle/
+android/local.properties
+.gradle/
+
+# Firebase - sensitive or environment-specific
+/android/app/google-services.json
+/lib/firebase_options.dart
+
+# Misc backups/workspace files
+c__/Users/User/VSCodeProjects/flutter-application-2.code-workspace
