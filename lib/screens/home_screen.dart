@@ -16,8 +16,8 @@ class _HomeScreenState extends State<HomeScreen> {
     final XFile? pickedFile = await picker.pickImage(source: source);
 
     if (pickedFile != null) {
-      if (!mounted) return;
       // 画像が選択されたら、写真の確認画面へ遷移し、画像ファイルを渡す
+      if (!mounted) return;
       context.go('/scan', extra: pickedFile);
     }
   }
@@ -28,13 +28,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
+        child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const SizedBox(height: 48),
+              const Spacer(flex: 2),
               Icon(
                 Icons.camera_enhance, //仮のアイコン
                 size: 80,
@@ -62,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 textAlign: TextAlign.center,
                 style: theme.textTheme.bodyMedium,
               ),
-              const SizedBox(height: 48),
+              const Spacer(),
               GestureDetector(
                 onTap: () => _pickImage(ImageSource.camera),
                 child: Container(
@@ -86,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 24),
+              const Spacer(),
               OutlinedButton.icon(
                 onPressed: () => _pickImage(ImageSource.gallery),
                 icon: const Icon(Icons.photo_album),
@@ -102,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               // ここにログインUIを追加（指定どおり Photo Album の下）
               const LoginSection(),
-              const SizedBox(height: 48),
+              const Spacer(flex: 2),
             ],
           ),
         ),
