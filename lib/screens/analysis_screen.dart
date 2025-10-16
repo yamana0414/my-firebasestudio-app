@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class AnalysisScreen extends StatefulWidget {
@@ -46,7 +46,7 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                 color: Colors.white,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.1),
+                    color: Colors.grey.withValues(alpha: 0.1),
                     spreadRadius: 5,
                     blurRadius: 15,
                   ),
@@ -73,11 +73,13 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
               style: theme.textTheme.bodyMedium,
             ),
             const Spacer(),
-            LinearProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(theme.colorScheme.primary),
-              backgroundColor: theme.colorScheme.primary.withOpacity(0.2),
+            ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              minHeight: 10,
+              child: LinearProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color?>(theme.colorScheme.primary),
+                backgroundColor: theme.colorScheme.primary.withValues(alpha: 0.2),
+                minHeight: 10,
+              ),
             ),
             const Spacer(flex: 3),
           ],

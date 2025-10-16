@@ -34,7 +34,7 @@ class PrepareScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.red.withOpacity(0.1),
+                  color: Colors.red.withValues(alpha: 0.1),
                 ),
                 child: const Icon(Icons.error_outline, color: Colors.red, size: 40),
               ),
@@ -166,10 +166,14 @@ class PrepareScreen extends StatelessWidget {
             const SizedBox(height: 32),
             ElevatedButton(
               onPressed: () async {
+                final messenger = ScaffoldMessenger.of(context);
                 try {
                   // コピー成功の処理
                   await Clipboard.setData(const ClipboardData(text: generatedDescription));
-                  ScaffoldMessenger.of(context).showSnackBar(
+                  if (!context.mounted) {
+                    return;
+                  }
+                  messenger.showSnackBar(
                     const SnackBar(
                       content: Text('コピーしました！'),
                       behavior: SnackBarBehavior.floating,
@@ -179,6 +183,9 @@ class PrepareScreen extends StatelessWidget {
 
                 } catch (e) {
                   // コピー失敗の処理
+                  if (!context.mounted) {
+                    return;
+                  }
                   _showCopyFailureDialog(context, '1234567890'); // 仮の失敗コード
                 }
               },

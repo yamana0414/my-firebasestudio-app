@@ -64,7 +64,7 @@ class _ConditionScreenState extends State<ConditionScreen> {
                     child: Card(
                       elevation: 0,
                       color: isCurrentlySelected
-                          ? theme.colorScheme.primary.withOpacity(0.1)
+                          ? theme.colorScheme.primary.withValues(alpha: 0.1)
                           : Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),

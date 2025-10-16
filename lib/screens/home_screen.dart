@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart'; // image_pickerをインポート
+import 'package:myapp/widgets/login_section.dart'; // 追加
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,6 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final XFile? pickedFile = await picker.pickImage(source: source);
 
     if (pickedFile != null) {
+      if (!mounted) return;
       // 画像が選択されたら、写真の確認画面へ遷移し、画像ファイルを渡す
       context.go('/scan', extra: pickedFile);
     }
@@ -26,13 +28,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       body: SafeArea(
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Spacer(flex: 2),
+              const SizedBox(height: 48),
               Icon(
                 Icons.camera_enhance, //仮のアイコン
                 size: 80,
@@ -60,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 textAlign: TextAlign.center,
                 style: theme.textTheme.bodyMedium,
               ),
-              const Spacer(),
+              const SizedBox(height: 48),
               GestureDetector(
                 onTap: () => _pickImage(ImageSource.camera),
                 child: Container(
@@ -71,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
-                        color: theme.colorScheme.primary.withOpacity(0.5),
+                        color: theme.colorScheme.primary.withValues(alpha: 0.5),
                         blurRadius: 20,
                         offset: const Offset(0, 10),
                       ),
@@ -84,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              const Spacer(),
+              const SizedBox(height: 24),
               OutlinedButton.icon(
                 onPressed: () => _pickImage(ImageSource.gallery),
                 icon: const Icon(Icons.photo_album),
@@ -98,7 +100,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const EdgeInsets.symmetric(vertical: 16),
                 ),
               ),
-              const Spacer(flex: 2),
+              // ここにログインUIを追加（指定どおり Photo Album の下）
+              const LoginSection(),
+              const SizedBox(height: 48),
             ],
           ),
         ),

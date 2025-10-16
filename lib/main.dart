@@ -15,7 +15,13 @@ import 'package:myapp/screens/condition_screen.dart';
 import 'package:myapp/screens/prepare_screen.dart';
 import 'package:myapp/screens/main_shell.dart';
 
+// 追加: 認証関連画面';
+import 'package:myapp/screens/login_screen.dart';
+import 'package:myapp/screens/register_screen.dart';
+import 'package:myapp/screens/settings_screen.dart';
+
 void main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -39,7 +45,14 @@ final GoRouter _router = GoRouter(
             return const HomeScreen();
           },
         ),
-        // TODO: 履歴画面と設定画面のルートを追加
+        // 設定画面（ボトムナビが必要ならここ、不要なら下に独立で）
+        GoRoute(
+          path: '/settings',
+          builder: (BuildContext context, GoRouterState state) {
+            return const SettingsScreen();
+          },
+        ),
+        // TODO: 履歴画面などを追加する場合はここに
       ],
     ),
     // ボトムナビゲーションバーが不要な画面
@@ -65,7 +78,7 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/item/:id',
       builder: (BuildContext context, GoRouterState state) {
-        final String id = state.pathParameters['id']!;
+        final id = state.pathParameters['id'] ?? '';
         return ItemScreen(id: id);
       },
     ),
@@ -81,6 +94,19 @@ final GoRouter _router = GoRouter(
         return const PrepareScreen();
       },
     ),
+    // 追加: 認証系ルート
+    GoRoute(
+      path: '/login',
+      builder: (BuildContext context, GoRouterState state) {
+        return const LoginScreen();
+      },
+    ),
+    GoRoute(
+      path: '/register',
+      builder: (BuildContext context, GoRouterState state) {
+        return const RegisterScreen();
+      },
+    ),
   ],
 );
 
@@ -89,53 +115,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const Color primaryColor = Color(0xFFFFD600);
-    const Color backgroundColor = Color(0xFFF5F5F5);
-    const Color textColor = Color(0xFF333333);
+    const brand = Color.fromARGB(255, 251, 189, 74); // #FFD363
+    final theme = ThemeData(
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: brand,
+        brightness: Brightness.light,
+        ).copyWith(primary: brand,
+        ),
+      iconTheme: const IconThemeData(color: brand),
+      progressIndicatorTheme: const ProgressIndicatorThemeData(color: brand),
+      textTheme: GoogleFonts.notoSansJpTextTheme(),
+    );
 
     return MaterialApp.router(
-      title: 'AI Room Scan',
-      theme: ThemeData(
-        useMaterial3: true,
-        scaffoldBackgroundColor: backgroundColor,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: primaryColor,
-          primary: primaryColor,
-          background: backgroundColor,
-          onBackground: textColor,
-        ),
-        textTheme: GoogleFonts.notoSansJpTextTheme(
-          Theme.of(context).textTheme,
-        ).copyWith(
-          displayLarge: const TextStyle(fontWeight: FontWeight.bold, color: textColor),
-          headlineLarge: const TextStyle(fontWeight: FontWeight.bold, color: textColor),
-          titleLarge: const TextStyle(fontWeight: FontWeight.bold, color: textColor),
-          bodyLarge: const TextStyle(color: textColor),
-          bodyMedium: const TextStyle(color: Colors.black54),
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: primaryColor,
-            foregroundColor: textColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
-            ),
-            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
-          ),
-        ),
-        textButtonTheme: TextButtonThemeData(
-          style: TextButton.styleFrom(
-            foregroundColor: textColor,
-          ),
-        ),
-        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-          backgroundColor: Colors.white,
-          selectedItemColor: textColor,
-          unselectedItemColor: Colors.grey,
-          showUnselectedLabels: true,
-        ),
-      ),
+      title: 'myapp',
+      theme: theme,
       routerConfig: _router,
+      debugShowCheckedModeBanner: false,
     );
   }
 }
